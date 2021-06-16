@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sigaweb_app/LoginPage.dart';
 import 'package:sigaweb_app/QuestionPage.dart';
 
@@ -13,7 +14,7 @@ class DashboardPage extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  child: Image.asset("img/profile_pic.jpg"),
+                  child: Image.asset("assets/img/profile_pic.jpg"),
                   width: 150.0,
                   height: 150.0,
 
@@ -54,9 +55,9 @@ class DashboardPage extends StatelessWidget{
                     );
                   },
                   icon: Icon(
-                    Icons.admin_panel_settings_outlined,
+                    FontAwesomeIcons.shieldAlt,
                     color: Colors.teal.shade300,
-                    size: 40.0,
+                    size: 30.0,
                   ),
                   label: Text(
                     "Encuesta COVID Diaria",

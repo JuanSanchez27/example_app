@@ -16,7 +16,16 @@ class LoginPage extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 80.0,
+                height: 30.0,
+              ),
+              Container(
+                child: Image.asset("assets/img/logo.png"),
+                width: 300.0,
+                height: 75.0,
+
+              ),
+              SizedBox(
+                height: 100.0,
               ),
               Text("Inicio de sesión",
               style: TextStyle(
@@ -52,7 +61,7 @@ class LoginPage extends StatelessWidget{
                   ),
                 )
               ),
-              SizedBox(height: 100.0,
+              SizedBox(height: 150.0,
               ),
               Text("¿Olvidó su contraseña?",
                 style: TextStyle(
