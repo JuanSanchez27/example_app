@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sigaweb_app/QuestionPage3.dart';
 
 import 'DashboardPage.dart';
@@ -97,7 +98,7 @@ class _QuestionPageState2 extends State<QuestionPage2> {
               ),
             ),
             SizedBox(
-              height: 80.0,
+              height: 120.0,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -105,8 +106,9 @@ class _QuestionPageState2 extends State<QuestionPage2> {
                 SizedBox(
                   child: IconButton(
                     icon: Icon(
-                      Icons.arrow_back_rounded,
+                      FontAwesomeIcons.arrowAltCircleLeft,
                       color: Colors.teal.shade600,
+                      size: 30.0,
                     ),
                     onPressed: (){
                       Navigator.of(context)
@@ -123,8 +125,9 @@ class _QuestionPageState2 extends State<QuestionPage2> {
                 SizedBox(
                   child: IconButton(
                     icon: Icon(
-                      Icons.arrow_forward_rounded,
+                      FontAwesomeIcons.arrowAltCircleRight,
                       color: Colors.teal.shade600,
+                      size: 30.0,
                     ),
                     onPressed: (){
                       Navigator.of(context)

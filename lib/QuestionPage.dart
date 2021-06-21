@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sigaweb_app/DashboardPage.dart';
 import 'package:sigaweb_app/QuestionPage2.dart';
 
@@ -57,10 +58,10 @@ class _QuestionPageState extends State<QuestionPage> {
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height: 70.0,
             ),
             Container(
-              height: 400.0,
+              height: 500.0,
               child: ListView(
                 children: [
                   Container(
@@ -144,14 +145,15 @@ class _QuestionPageState extends State<QuestionPage> {
               ),
             ),
             SizedBox(
-              height: 40.0,
+              height: 20.0,
             ),
             Container(
               child: SizedBox(
                 child: IconButton(
                   icon: Icon(
-                    Icons.arrow_forward_rounded,
+                    FontAwesomeIcons.arrowAltCircleRight,
                     color: Colors.teal.shade600,
+                    size: 30.0,
                   ),
                   onPressed: (){
                     Navigator.of(context)

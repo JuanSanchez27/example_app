@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'DashboardPage.dart';
 import 'QuestionPage2.dart';
@@ -94,7 +95,7 @@ class _QuestionPageState3 extends State<QuestionPage3> {
               ),
             ),
             SizedBox(
-              height: 100.0,
+              height: 150.0,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -102,8 +103,9 @@ class _QuestionPageState3 extends State<QuestionPage3> {
                 SizedBox(
                   child: IconButton(
                     icon: Icon(
-                      Icons.arrow_back_rounded,
+                      FontAwesomeIcons.arrowAltCircleLeft,
                       color: Colors.teal.shade600,
+                      size: 30.0,
                     ),
                     onPressed: (){
                       Navigator.of(context)
@@ -120,8 +122,9 @@ class _QuestionPageState3 extends State<QuestionPage3> {
                 SizedBox(
                   child: IconButton(
                     icon: Icon(
-                      Icons.arrow_forward_rounded,
+                      FontAwesomeIcons.arrowAltCircleRight,
                       color: Colors.teal.shade600,
+                      size: 30.0,
                     ),
                     onPressed: (){
                       Navigator.of(context)
