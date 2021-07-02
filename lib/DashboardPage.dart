@@ -13,11 +13,42 @@ class DashboardPage extends StatelessWidget{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                  child: Image.asset("assets/img/profile_pic.jpg"),
-                  width: 150.0,
-                  height: 150.0,
-
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                  clipBehavior: Clip.hardEdge,
+                  child: Image.asset("assets/img/profile_pic.jpg",
+                    width: 200.0,
+                    height: 200.0,
+                  ),
+                ),
+                Container(
+                  width: 160.0,
+                  alignment: Alignment.topRight,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.0),
+                    clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                      onPressed: () { 
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Muestre este código QR al sensor más cercano."),
+                              );
+                            }
+                        );
+                      },
+                      icon: Icon(
+                        FontAwesomeIcons.qrcode,
+                      ),
+                      color: Colors.teal.shade600,
+                      alignment: Alignment.topRight,
+                    ),
+                  ),
+                ),
+              ]
               ),
               SizedBox(
                 height: 20.0,

@@ -31,6 +31,8 @@ dependencies:
   font_awesome_flutter: ^9.1.0
 
 dev_dependencies:
+  http: any
+  shared_preferences: any
   flutter_test:
     sdk: flutter
   font_awesome_flutter: ^9.1.0

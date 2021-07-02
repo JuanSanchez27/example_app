@@ -1,11 +1,19 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:sigaweb_app/DashboardPage.dart';
+import 'package:sigaweb_app/services/models/login_model.dart';
 
-class LoginPage extends StatelessWidget{
+class LoginPage extends StatefulWidget{
 
   static String id = 'LoginPage';
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  GlobalKey<FormState> globalKey = new GlobalKey<FormState>();
+
+  LoginRequestModel loginRequestModel = new LoginRequestModel();
 
   @override
   Widget build(BuildContext context) {
@@ -15,51 +23,63 @@ class LoginPage extends StatelessWidget{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 30.0,
-              ),
               Container(
-                child: Image.asset("assets/img/logo.png"),
-                width: 300.0,
-                height: 75.0,
+                child: Form(
+                  key: globalKey,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      Container(
+                        child: Image.asset("assets/img/logo.png"),
+                        width: 300.0,
+                        height: 75.0,
 
-              ),
-              SizedBox(
-                height: 100.0,
-              ),
-              Text("Inicio de sesión",
-              style: TextStyle(
-                  fontSize: 30.0,
-                  fontFamily: "Nunito",
-              ),
-              ),
-              SizedBox(height: 40.0,
-              ),
-              _textFieldDocumento(),
-              SizedBox(height: 15.0
-              ),
-              _textFieldPass(),
-              SizedBox(height: 20.0,
-              ),
-              Container(
-                width: 154.0,
-                height: 50.0,
-                child: ElevatedButton(onPressed: (){
-                  Navigator.of(context)
-                    .push(MaterialPageRoute(
-                    builder: (context) => DashboardPage()
-                    )
-                  );
-                },
-                  child: Text("Entrar",
-                    style: TextStyle(
-                        fontFamily: "Nunito"
-                    ),
+                      ),
+                      SizedBox(
+                        height: 100.0,
+                      ),
+                      Text("Inicio de sesión",
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontFamily: "Nunito",
+                        ),
+                      ),
+                      SizedBox(height: 40.0,
+                      ),
+                      _textFieldDocumento(),
+                      SizedBox(height: 15.0
+                      ),
+                      _textFieldPass(),
+                      SizedBox(height: 20.0,
+                      ),
+                      Container(
+                          width: 154.0,
+                          height: 50.0,
+                          child: ElevatedButton(onPressed: (){
+                            if (validate()) {
+                              print(loginRequestModel.toJson());
+                              Navigator.of(context)
+                                .push(MaterialPageRoute(
+                                builder: (context) => DashboardPage()
+                                )
+                              );
+                            }
+                          },
+                            child: Text("Entrar",
+                              style: TextStyle(
+                                  fontFamily: "Nunito"
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.teal.shade600,
+                            ),
+                          )
+                      ),
+                    ],
                   ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.teal.shade600,
-                  ),
-                )
+                ),
               ),
               SizedBox(height: 150.0,
               ),
@@ -83,10 +103,13 @@ class LoginPage extends StatelessWidget{
       ),
     );
   }
+
   Widget _textFieldDocumento() {
     return Container(
       width: 300.0,
-      child: TextField(
+      child: TextFormField(
+          onSaved: (input) => loginRequestModel.email = input.toString(),
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             hintText: "No. Documento",
             border: OutlineInputBorder(
@@ -100,7 +123,8 @@ class LoginPage extends StatelessWidget{
   Widget _textFieldPass() {
     return Container(
       width: 300.0,
-      child: TextField(
+      child: TextFormField(
+          onSaved: (input) => loginRequestModel.pass = input.toString(),
           obscureText: true,
           decoration: InputDecoration(
             hintText: "Contraseña",
@@ -112,4 +136,15 @@ class LoginPage extends StatelessWidget{
     );
   }
 
+  bool validate() {
+    final form = globalKey.currentState;
+
+    if (form!.validate()) {
+      return false;
+    }
+
+    form.save();
+    return true;
+
+  }
 }
