@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sigaweb_app/DashboardPage.dart';
 import 'package:sigaweb_app/LoginPage.dart';
 import 'package:sigaweb_app/QuestionPage.dart';
-import 'package:sigaweb_app/QuestionPage4.dart';
-
-import 'QuestionPage2.dart';
-import 'QuestionPage3.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,11 +22,8 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginPage.id,
       routes: {
         LoginPage.id : (context) => LoginPage(),
-        DashboardPage.id : (context) => DashboardPage(),
-        QuestionPage.id : (context) => QuestionPage(),
-        QuestionPage2.id : (context) => QuestionPage2(),
-        QuestionPage3.id : (context) => QuestionPage3(),
-        QuestionPage4.id : (context) => QuestionPage4(),
+        DashboardPage.id : (context) => DashboardPage(Map<String, dynamic>()),
+        QuestionPage.id : (context) => QuestionPage(Map<String, dynamic>(), Map<String, dynamic>()),
       },
     );
   }

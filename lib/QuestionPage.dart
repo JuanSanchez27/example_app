@@ -1,18 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sigaweb_app/DashboardPage.dart';
-import 'package:sigaweb_app/QuestionPage2.dart';
 
 class QuestionPage extends StatefulWidget {
   static String id = 'QuestionPage';
+  final Map<String, dynamic> datos;
+  Map<String, dynamic> lista;
+
+  QuestionPage(this.datos, this.lista);
 
   @override
   _QuestionPageState createState() => _QuestionPageState();
+
 }
 
 class _QuestionPageState extends State<QuestionPage> {
-  bool value = false;
-  bool value2 = false;
+
+  @override
+  void initState(){
+    widget.lista.forEach((key, value) { });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +42,10 @@ class _QuestionPageState extends State<QuestionPage> {
                 color: Colors.teal.shade600,
             ),
             onPressed: (){
+              var data = widget.datos;
               Navigator.of(context)
-                  .push(MaterialPageRoute(
-                  builder: (context) => DashboardPage()
+                  .pop(MaterialPageRoute(
+                  builder: (context) => DashboardPage(data)
               )
               );
             },
@@ -49,7 +59,7 @@ class _QuestionPageState extends State<QuestionPage> {
             Container(
               width: 300.0,
               child: Text(
-                "¿Ha presentado alguno de los siguientes sintomas en las ultimas 24 horas?",
+                widget.lista['questions'][0]['statement'],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Nunito",
@@ -63,85 +73,7 @@ class _QuestionPageState extends State<QuestionPage> {
             Container(
               height: 500.0,
               child: ListView(
-                children: [
-                  Container(
-                    child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      activeColor: Colors.teal.shade600,
-                      title: Text("Dolor de cabeza"),
-                      value: value2,
-                      onChanged: (value) => setState(() => this.value2 = value!),
-                      tileColor: Colors.teal.shade100,
 
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Colors.teal.shade600,
-                    title: Text("Fiebre"),
-                    value: value,
-                    onChanged: (value) => setState(() => this.value = value!),
-                    tileColor: Colors.teal.shade100,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Colors.teal.shade600,
-                    title: Text("Tos peristente"),
-                    value: value,
-                    onChanged: (value) => this.value = value!,
-                    tileColor: Colors.teal.shade100,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Colors.teal.shade600,
-                    title: Text("Dificultad para respirar"),
-                    value: value,
-                    onChanged: (value) => this.value = value!,
-                    tileColor: Colors.teal.shade100,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Colors.teal.shade600,
-                    title: Text("Dolor estomacal o vómito persistente"),
-                    value: value,
-                    onChanged: (value) => this.value = value!,
-                    tileColor: Colors.teal.shade100,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Colors.teal.shade600,
-                    title: Text("Diarrea persistente"),
-                    value: value,
-                    onChanged: (value) => this.value = value!,
-                    tileColor: Colors.teal.shade100,
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Colors.teal.shade600,
-                    title: Text("Dolor de garganta"),
-                    value: value,
-                    onChanged: (value) => this.value = value!,
-                    tileColor: Colors.teal.shade100,
-                  ),
-                ],
               ),
             ),
             SizedBox(
@@ -155,13 +87,7 @@ class _QuestionPageState extends State<QuestionPage> {
                     color: Colors.teal.shade600,
                     size: 30.0,
                   ),
-                  onPressed: (){
-                    Navigator.of(context)
-                          .push(MaterialPageRoute(
-                      builder: (context) => QuestionPage2()
-                      ),
-                    );
-                  },
+                  onPressed: (){},
                 ),
               ),
             ),

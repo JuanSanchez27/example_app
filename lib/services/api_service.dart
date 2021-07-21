@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sigaweb_app/services/models/login_model.dart';
+import 'package:sigaweb_app/services/models/question_model.dart';
 
 class APIService {
 
@@ -10,11 +13,26 @@ class APIService {
 
     final response = await http.post(Uri.parse(url), body: loginRequestModel.toJson());
 
-    if (response.statusCode == 200 || response.statusCode == 400) {
+    if (response.statusCode == 200) {
       return LoginResponseModel.formJson(json.decode(response.body));
     }else{
       throw Exception('Ocurrio un error al momento de iniciar sesión, comuniquese con soporte.');
     }
 
+  }
+
+  Future<QuestionResponseModel> question (QuestionRequestModel questionRequestModel) async {
+    String url = "http://api.sigaweb.co/api/v1/covid-survey";
+
+    final response = await http.get(Uri.parse(url), headers: {
+      HttpHeaders.authorizationHeader : 'Bearer ' + questionRequestModel.token,
+      HttpHeaders.acceptHeader: 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+      return QuestionResponseModel.formJson(json.decode(response.body));
+    }else{
+      throw Exception('Ocurrio un error al momento de generar las preguntas, comuniquese con soporte.');
+    }
   }
 }
