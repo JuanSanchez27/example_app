@@ -79,6 +79,12 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 });
                               }
+                              else {
+                                AlertDialog(
+                                  title: Text(
+                                      'Ocurrio un error al momento de iniciar sesión, comuniquese con soporte.'),
+                                );
+                              }
                             },
                               child: Text("Entrar",
                                 style: TextStyle(
