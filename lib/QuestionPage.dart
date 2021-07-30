@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sigaweb_app/CovidSubmitPage.dart';
 import 'package:sigaweb_app/DashboardPage.dart';
 
 class QuestionPage extends StatefulWidget {
@@ -18,15 +17,12 @@ class QuestionPage extends StatefulWidget {
 }
 
 class _QuestionPageState extends State<QuestionPage> {
+  GlobalKey<FormState> globalKey = new GlobalKey<FormState>();
   PageController pageController = new PageController();
-  int pageChanged = 1;
+  int pageChanged = 0;
   String selectedValue = '';
   bool value = false;
-
-  @override
-  void initState(){
-    widget.lista.forEach((key, value) { });
-  }
+  Map<String, dynamic> resp = new Map();
 
   @override
   Widget build(BuildContext context) {
@@ -58,91 +54,108 @@ class _QuestionPageState extends State<QuestionPage> {
         ),
         body: Column(
           children:[
-            SizedBox(
-              height: 20.0,
-            ),
             Container(
-              height: 600.0,
-              child: PageView.builder(
-                controller: pageController,
-                onPageChanged: (index){
-                  setState(() {
-                    pageChanged = index;
-                  });
-                },
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.lista['questions'].length,
-                itemBuilder: (BuildContext context, int index){
-                  return Column(
-                    children: [
-                      Container(
-                        width: 300.0,
-                        child: Text(
-                          widget.lista['questions'][index]['statement'],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: "Nunito",
-                            fontSize: 15.0,
-                          ),
-                        ),
+              child: Form(
+                key: globalKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Container(
+                      height: 600.0,
+                      child: PageView.builder(
+                        controller: pageController,
+                        onPageChanged: (index){
+                          setState(() {
+                            pageChanged = index;
+                          });
+                        },
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.lista['questions'].length,
+                        itemBuilder: (BuildContext context, int index){
+                          return Column(
+                            children: [
+                              Container(
+                                width: 300.0,
+                                child: Text(
+                                  widget.lista['questions'][index]['statement'],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: "Nunito",
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 70.0,
+                              ),
+                              Container(
+                                height: 430.0,
+                                width: 400.0,
+                                child: ListView.builder(
+                                  itemCount: widget.lista['questions'][index]['answers'].length,
+                                  itemBuilder: (BuildContext context, int preg){
+                                    if (widget.lista['questions'][index]['selection_type'] == 'UNIQUE') {
+                                      return Column(
+                                        children: [
+                                          RadioListTile(
+                                            value: widget.lista['questions'][index]['answers'][preg]['statement'].toString(),
+                                            groupValue: selectedValue,
+                                            controlAffinity: ListTileControlAffinity.leading,
+                                            activeColor: Colors.teal.shade600,
+                                            title: Text(widget.lista['questions'][index]['answers'][preg]['statement']),
+                                            onChanged: (val) => setState(() {
+                                              selectedValue = widget.lista['questions'][index]['answers'][preg]['statement'];
+                                              resp.addAll({
+                                                'id': widget.lista['questions'][index]['id'],
+                                                'responses' : [widget.lista['questions'][index]['answers'][preg]['id']],
+                                              });
+                                            }),
+                                            //acá va la configuracion del color
+                                          ),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                        ],
+                                      );
+                                    }else {
+                                      return Column(
+                                        children: [
+                                          CheckboxListTile(
+                                            controlAffinity: ListTileControlAffinity
+                                                .leading,
+                                            activeColor: Colors.teal.shade600,
+                                            title: Text(widget.lista['questions'][index]['answers'][preg]['statement']),
+                                            value: widget.lista['questions'][index]['answers'][preg]['correct'],
+                                            onChanged: (value) => setState(() {
+                                              widget.lista['questions'][index]['answers'][preg]['correct'] = value;
+                                              resp.addAll({
+                                                'id': widget.lista['questions'][index]['id'],
+                                                'responses' : [widget.lista['questions'][index]['answers'][preg]['id']],
+                                              });
+                                            }),
+                                          ),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      SizedBox(
-                        height: 70.0,
-                      ),
-                      Container(
-                        height: 430.0,
-                        width: 400.0,
-                        child: ListView.builder(
-                          itemCount: widget.lista['questions'][index]['answers'].length,
-                          itemBuilder: (BuildContext context, int preg){
-                            if (widget.lista['questions'][index]['selection_type'] == 'UNIQUE') {
-                              return Column(
-                                children: [
-                                  RadioListTile(
-                                    value: widget.lista['questions'][index]['answers'][preg]['statement'].toString(),
-                                    groupValue: selectedValue,
-                                    controlAffinity: ListTileControlAffinity.leading,
-                                    activeColor: Colors.teal.shade600,
-                                    title: Text(widget.lista['questions'][index]['answers'][preg]['statement']),
-                                    onChanged: (val) => setState(() {
-                                      selectedValue = widget.lista['questions'][index]['answers'][preg]['statement'];
-                                      print(selectedValue);
-                                    }),
-                                    //acá va la configuracion del color
-                                  ),
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                ],
-                              );
-                            }else {
-                              return Column(
-                                children: [
-                                  CheckboxListTile(
-                                    controlAffinity: ListTileControlAffinity
-                                        .leading,
-                                    activeColor: Colors.teal.shade600,
-                                    title: Text(widget.lista['questions'][index]['answers'][preg]['statement']),
-                                    value: value,
-                                    onChanged: (value) =>
-                                        setState(() => this.value = value!),
-                                  ),
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                ],
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  );
-                },
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20.0,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -177,8 +190,15 @@ class _QuestionPageState extends State<QuestionPage> {
                         duration: Duration(milliseconds: 250),
                         curve: Curves.bounceIn,
                       );
-                      if (pageChanged >= widget.lista['questions'].length) {
-                          pageChanged = widget.lista['questions'].length - 1;
+                      if (pageChanged == widget.lista['questions'].length) {
+                        pageChanged = widget.lista['questions'].length - 1;
+                        var data = widget.datos;
+                        var list = resp;
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                            builder: (context) => CovidSubmitPage(data, list),
+                        )
+                        );
                       }
                     },
                   ),

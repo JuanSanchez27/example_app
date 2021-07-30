@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:sigaweb_app/services/models/answer_model.dart';
 import 'dart:convert';
 
 import 'package:sigaweb_app/services/models/login_model.dart';
@@ -25,7 +26,7 @@ class APIService {
     String url = "http://api.sigaweb.co/api/v1/covid-survey";
 
     final response = await http.get(Uri.parse(url), headers: {
-      HttpHeaders.authorizationHeader : 'Bearer ' + questionRequestModel.token,
+      HttpHeaders.authorizationHeader: 'Bearer ' + questionRequestModel.token,
       HttpHeaders.acceptHeader: 'application/json',
     });
 
@@ -33,6 +34,26 @@ class APIService {
       return QuestionResponseModel.formJson(json.decode(response.body));
     }else{
       throw Exception('Ocurrio un error al momento de generar las preguntas, comuniquese con soporte.');
+    }
+  }
+
+  Future<AnswerResponseModel> answer (AnswerRequestModel answerRequestModel) async {
+    String url = "http://api.sigaweb.co/api/v1/covid-survey";
+
+    print(answerRequestModel.toJson());
+
+    final response = await http.post(Uri.parse(url), headers:<String, String> {
+      HttpHeaders.authorizationHeader : 'Bearer ' + answerRequestModel.token,
+      HttpHeaders.acceptHeader : 'application/json',
+      },
+      body: answerRequestModel.toJson(),
+    );
+
+    if (response.statusCode == 200) {
+      return AnswerResponseModel.fromJson(json.decode(response.body));
+    }else{
+      print(response.body);
+      throw Exception('Ocurrio un error al momento de guardar las preguntas, comuniquese con soporte.');
     }
   }
 }
