@@ -40,19 +40,16 @@ class APIService {
   Future<AnswerResponseModel> answer (AnswerRequestModel answerRequestModel) async {
     String url = "http://api.sigaweb.co/api/v1/covid-survey";
 
-    print(answerRequestModel.toJson());
-
     final response = await http.post(Uri.parse(url), headers:<String, String> {
       HttpHeaders.authorizationHeader : 'Bearer ' + answerRequestModel.token,
-      HttpHeaders.acceptHeader : 'application/json',
+      'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: answerRequestModel.toJson(),
+      body: jsonEncode(answerRequestModel.toJson()),
     );
 
     if (response.statusCode == 200) {
       return AnswerResponseModel.fromJson(json.decode(response.body));
     }else{
-      print(response.body);
       throw Exception('Ocurrio un error al momento de guardar las preguntas, comuniquese con soporte.');
     }
   }

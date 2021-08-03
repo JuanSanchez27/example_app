@@ -22,7 +22,7 @@ class _QuestionPageState extends State<QuestionPage> {
   int pageChanged = 0;
   String selectedValue = '';
   bool value = false;
-  Map<String, dynamic> resp = new Map();
+  List<dynamic> lista = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
@@ -106,11 +106,13 @@ class _QuestionPageState extends State<QuestionPage> {
                                             activeColor: Colors.teal.shade600,
                                             title: Text(widget.lista['questions'][index]['answers'][preg]['statement']),
                                             onChanged: (val) => setState(() {
+                                              Map<String, dynamic> resp = new Map();
                                               selectedValue = widget.lista['questions'][index]['answers'][preg]['statement'];
                                               resp.addAll({
-                                                'id': widget.lista['questions'][index]['id'],
-                                                'responses' : [widget.lista['questions'][index]['answers'][preg]['id']],
+                                                "id": widget.lista['questions'][index]['id'],
+                                                "responses" : [widget.lista['questions'][index]['answers'][preg]['id']],
                                               });
+                                              lista.add(resp);
                                             }),
                                             //acá va la configuracion del color
                                           ),
@@ -129,11 +131,13 @@ class _QuestionPageState extends State<QuestionPage> {
                                             title: Text(widget.lista['questions'][index]['answers'][preg]['statement']),
                                             value: widget.lista['questions'][index]['answers'][preg]['correct'],
                                             onChanged: (value) => setState(() {
+                                              Map<String, dynamic> resp = new Map();
                                               widget.lista['questions'][index]['answers'][preg]['correct'] = value;
                                               resp.addAll({
-                                                'id': widget.lista['questions'][index]['id'],
-                                                'responses' : [widget.lista['questions'][index]['answers'][preg]['id']],
+                                                "id": widget.lista['questions'][index]['id'],
+                                                "responses" : [widget.lista['questions'][index]['answers'][preg]['id']],
                                               });
+                                              lista.add(resp);
                                             }),
                                           ),
                                           SizedBox(
@@ -193,7 +197,7 @@ class _QuestionPageState extends State<QuestionPage> {
                       if (pageChanged == widget.lista['questions'].length) {
                         pageChanged = widget.lista['questions'].length - 1;
                         var data = widget.datos;
-                        var list = resp;
+                        var list = lista;
                         Navigator.of(context)
                             .push(MaterialPageRoute(
                             builder: (context) => CovidSubmitPage(data, list),

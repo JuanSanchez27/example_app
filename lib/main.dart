@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         LoginPage.id : (context) => LoginPage(),
         DashboardPage.id : (context) => DashboardPage(Map<String, dynamic>()),
         QuestionPage.id : (context) => QuestionPage(Map<String, dynamic>(), Map<String, dynamic>()),
-        CovidSubmitPage.id : (context) => CovidSubmitPage(Map<String, dynamic>(), Map<String, dynamic>()),
+        CovidSubmitPage.id : (context) => CovidSubmitPage(Map<String, dynamic>(), List.empty()),
       },
     );
   }

@@ -1,18 +1,16 @@
 class AnswerRequestModel{
   String token;
-  Map<String, dynamic> data;
+  List<dynamic> data;
 
   AnswerRequestModel({
     this.token = '',
-    this.data = const {},
+    this.data = const [],
   });
 
-  Map<String,List<Map<String, dynamic>>> toJson(){
-    Map<String, List<Map<String, dynamic>>> map = {
-      'questions' : [data],
+  Map<String,List<dynamic>> toJson(){
+    Map<String, List<dynamic>> map = {
+      "questions" : data,
     };
-
-    print(data);
 
     return map;
   }

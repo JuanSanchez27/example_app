@@ -8,7 +8,7 @@ import 'DashboardPage.dart';
 class CovidSubmitPage extends StatefulWidget {
   static String id = 'CovidSubmitPage';
   final Map<String, dynamic> data;
-  final Map<String, dynamic> list;
+  final List<dynamic> list;
 
   CovidSubmitPage(this.data, this.list);
 
