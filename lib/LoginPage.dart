@@ -24,16 +24,12 @@ class _LoginPageState extends State<LoginPage> {
         body: Center(
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   child: Form(
                     key: globalKey,
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 10.0,
-                        ),
                         Container(
                           child: Image.asset("assets/img/logo.png"),
                           width: 300.0,
@@ -41,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         ),
                         SizedBox(
-                          height: 60.0,
+                          height: 90.0,
                         ),
                         Text("Inicio de sesión",
                           style: TextStyle(
@@ -49,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontFamily: "Nunito",
                           ),
                         ),
-                        SizedBox(height: 30.0,
+                        SizedBox(height: 60.0,
                         ),
                         _textFieldDocumento(),
                         SizedBox(height: 10.0
@@ -64,26 +60,26 @@ class _LoginPageState extends State<LoginPage> {
                               if (validateAndSave()) {
                                 APIService apiService = new APIService();
                                 apiService.login(loginRequestModel).then((value) {
-                                  if (value.data.isNotEmpty) {
+                                  if (value.data.isNotEmpty && value.status == 200) {
                                     var Data = value.data;
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) => DashboardPage(Data)
                                         )
                                     );
-                                  }else {
-                                    AlertDialog(
-                                      title: Text(
-                                          'Ocurrio un error al momento de iniciar sesión, comuniquese con soporte.'),
-                                    );
+                                  }else{
+                                    showDialog(context: context, builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        content: Text(
+                                          value.message,
+                                          style: TextStyle(
+                                            fontFamily: 'Nunito',
+                                          ),
+                                        ),
+                                      );
+                                    });
                                   }
                                 });
-                              }
-                              else {
-                                AlertDialog(
-                                  title: Text(
-                                      'Ocurrio un error al momento de iniciar sesión, comuniquese con soporte.'),
-                                );
                               }
                             },
                               child: Text("Entrar",
@@ -92,11 +88,11 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.teal.shade600,
+                                primary: Color.fromRGBO(0, 166, 116, 1),
                               ),
                             )
                         ),
-                        SizedBox(height: 50.0,
+                        SizedBox(height: 80.0,
                         ),
                         Text("¿Olvidó su contraseña?",
                           style: TextStyle(
@@ -142,11 +138,15 @@ class _LoginPageState extends State<LoginPage> {
           },
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            hintText: "No. Documento",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(2.0),
-            )
+            hintText: "  No. Documento",
+            hintStyle: TextStyle(
+              fontFamily: 'Nunito',
+              color: Colors.grey.shade400,
+            ),
           )
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
       ),
     );
   }
@@ -164,11 +164,15 @@ class _LoginPageState extends State<LoginPage> {
           },
           obscureText: true,
           decoration: InputDecoration(
-            hintText: "Contraseña",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2.0),
-              )
+            hintText: "  Contraseña",
+            hintStyle: TextStyle(
+              fontFamily: 'Nunito',
+              color: Colors.grey.shade400,
+            ),
           )
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
       ),
     );
   }
