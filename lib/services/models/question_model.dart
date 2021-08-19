@@ -1,10 +1,7 @@
-
-class QuestionRequestModel{
+class QuestionRequestModel {
   String token;
 
-  QuestionRequestModel({
-    this.token = ''
-  });
+  QuestionRequestModel({this.token = ''});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
@@ -15,16 +12,16 @@ class QuestionRequestModel{
   }
 }
 
-class QuestionResponseModel{
+class QuestionResponseModel {
   Map<String, dynamic> data;
 
   QuestionResponseModel({
-    this.data = const{},
+    this.data = const {},
   });
 
-  factory QuestionResponseModel.formJson(Map<String, dynamic> json){
+  factory QuestionResponseModel.formJson(Map<String, dynamic> json) {
     return QuestionResponseModel(
-      data: json['data'] != null ? json['data']: '',
+      data: json['data'] != null ? json['data'] : '',
     );
   }
 }

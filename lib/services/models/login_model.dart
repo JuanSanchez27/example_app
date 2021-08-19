@@ -1,4 +1,4 @@
-class LoginRequestModel{
+class LoginRequestModel {
   String document;
   String pass;
 
@@ -16,7 +16,7 @@ class LoginRequestModel{
   }
 }
 
-class LoginResponseModel{
+class LoginResponseModel {
   int status;
   String message;
   Map<String, dynamic> data;
@@ -27,11 +27,11 @@ class LoginResponseModel{
     this.data = const {},
   });
 
-  factory LoginResponseModel.formJson(Map<String, dynamic> json){
+  factory LoginResponseModel.formJson(Map<String, dynamic> json) {
     return LoginResponseModel(
-        status: json['status'] != null ? json['status'] : '',
-        message: json['message'] != null ? json['message']: '',
-        data: json['data'] != null ? json['data']: '',
+      status: json['status'] != null ? json['status'] : '',
+      message: json['message'] != null ? json['message'] : '',
+      data: json['data'] != null ? json['data'] : '',
     );
   }
 }

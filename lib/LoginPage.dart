@@ -4,8 +4,7 @@ import 'package:sigaweb_app/DashboardPage.dart';
 import 'package:sigaweb_app/services/api_service.dart';
 import 'package:sigaweb_app/services/models/login_model.dart';
 
-class LoginPage extends StatefulWidget{
-
+class LoginPage extends StatefulWidget {
   static String id = 'LoginPage';
 
   @override
@@ -13,7 +12,6 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   GlobalKey<FormState> globalKey = new GlobalKey<FormState>();
   LoginRequestModel loginRequestModel = new LoginRequestModel();
 
@@ -34,81 +32,88 @@ class _LoginPageState extends State<LoginPage> {
                           child: Image.asset("assets/img/logo.png"),
                           width: 300.0,
                           height: 75.0,
-
                         ),
                         SizedBox(
                           height: 90.0,
                         ),
-                        Text("Inicio de sesión",
+                        Text(
+                          "Inicio de sesión",
                           style: TextStyle(
                             fontSize: 30.0,
                             fontFamily: "Nunito",
                           ),
                         ),
-                        SizedBox(height: 60.0,
+                        SizedBox(
+                          height: 60.0,
                         ),
                         _textFieldDocumento(),
-                        SizedBox(height: 10.0
-                        ),
+                        SizedBox(height: 10.0),
                         _textFieldPass(),
-                        SizedBox(height: 20.0,
+                        SizedBox(
+                          height: 20.0,
                         ),
                         Container(
                             width: 154.0,
                             height: 50.0,
-                            child: ElevatedButton(onPressed: (){
-                              if (validateAndSave()) {
-                                APIService apiService = new APIService();
-                                apiService.login(loginRequestModel).then((value) {
-                                  if (value.data.isNotEmpty && value.status == 200) {
-                                    var Data = value.data;
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => DashboardPage(Data)
-                                        )
-                                    );
-                                  }else{
-                                    showDialog(context: context, builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content: Text(
-                                          value.message,
-                                          style: TextStyle(
-                                            fontFamily: 'Nunito',
-                                          ),
-                                        ),
-                                      );
-                                    });
-                                  }
-                                });
-                              }
-                            },
-                              child: Text("Entrar",
-                                style: TextStyle(
-                                    fontFamily: "Nunito"
-                                ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (validateAndSave()) {
+                                  APIService apiService = new APIService();
+                                  apiService
+                                      .login(loginRequestModel)
+                                      .then((value) {
+                                    if (value.data.isNotEmpty &&
+                                        value.status == 200) {
+                                      var Data = value.data;
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DashboardPage(Data)));
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            content: Text(
+                                              value.message,
+                                              style: TextStyle(
+                                                fontFamily: 'Nunito',
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                    }
+                                  });
+                                }
+                              },
+                              child: Text(
+                                "Entrar",
+                                style: TextStyle(fontFamily: "Nunito", fontSize: 17.0,),
                               ),
                               style: ElevatedButton.styleFrom(
                                 primary: Color.fromRGBO(0, 166, 116, 1),
                               ),
-                            )
+                            )),
+                        SizedBox(
+                          height: 80.0,
                         ),
-                        SizedBox(height: 80.0,
-                        ),
-                        Text("¿Olvidó su contraseña?",
+                        Text(
+                          "¿Olvidó su contraseña?",
                           style: TextStyle(
                               color: Colors.grey.shade400,
-                              fontFamily: "Nunito"
-                          ),
+                              fontFamily: "Nunito"),
                         ),
-                        SizedBox(height: 10.0,
+                        SizedBox(
+                          height: 10.0,
                         ),
-                        Text("¿No está registrado?",
+                        Text(
+                          "¿No está registrado?",
                           style: TextStyle(
                               color: Colors.grey.shade400,
-                              fontFamily: "Nunito"
-                          ),
+                              fontFamily: "Nunito"),
                         ),
-                        SizedBox(height: 15.0,
+                        SizedBox(
+                          height: 15.0,
                         ),
                       ],
                     ),
@@ -125,6 +130,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _textFieldDocumento() {
     return Container(
       width: 300.0,
+      padding: EdgeInsets.all(10.0),
       child: TextFormField(
           onSaved: (input) => loginRequestModel.document = input.toString(),
           validator: (input) {
@@ -143,10 +149,9 @@ class _LoginPageState extends State<LoginPage> {
               fontFamily: 'Nunito',
               color: Colors.grey.shade400,
             ),
-          )
-      ),
+          )),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        //color: Colors.grey.shade200,
       ),
     );
   }
@@ -154,6 +159,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _textFieldPass() {
     return Container(
       width: 300.0,
+      padding: EdgeInsets.all(10.0),
       child: TextFormField(
           onSaved: (input) => loginRequestModel.pass = input.toString(),
           validator: (input) {
@@ -169,10 +175,9 @@ class _LoginPageState extends State<LoginPage> {
               fontFamily: 'Nunito',
               color: Colors.grey.shade400,
             ),
-          )
-      ),
+          )),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        //color: Colors.grey.shade200,
       ),
     );
   }
@@ -186,6 +191,5 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return false;
-
   }
 }

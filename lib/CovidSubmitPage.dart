@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sigaweb_app/services/api_service.dart';
 import 'package:sigaweb_app/services/models/answer_model.dart';
 
@@ -31,15 +32,25 @@ class _CovidSubmitPageState extends State<CovidSubmitPage> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.teal.shade600,
+        leading: Container(
+          child: Container(
+            margin: EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.teal.shade600,
+                width: 2.0,),
+            ),
+            child: IconButton(
+              icon: Icon(
+                FontAwesomeIcons.arrowLeft,
+                color: Colors.teal.shade600,
+              ),
+              onPressed: () {
+                var data = widget.data;
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => DashboardPage(data)));
+              },
+            ),
           ),
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => DashboardPage(widget.data)));
-          },
         ),
       ),
       body: Center(
@@ -73,11 +84,8 @@ class _CovidSubmitPageState extends State<CovidSubmitPage> {
                     answerRequestModel.data = widget.list;
                     apiService.answer(answerRequestModel).then((value) {
                       if (value.status == 200 || value.status == 500) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DashboardPage(widget.data)
-                          )
-                        );
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => DashboardPage(widget.data)));
                       }
                     });
                   }
