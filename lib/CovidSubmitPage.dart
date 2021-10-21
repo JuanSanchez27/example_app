@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sigaweb_app/services/api_service.dart';
 import 'package:sigaweb_app/services/models/answer_model.dart';
+import 'package:sigaweb_app/utils/responsive.dart';
 
 import 'DashboardPage.dart';
 
@@ -23,6 +24,7 @@ class _CovidSubmitPageState extends State<CovidSubmitPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Responsive responsive = Responsive.of(context);
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -46,8 +48,12 @@ class _CovidSubmitPageState extends State<CovidSubmitPage> {
               ),
               onPressed: () {
                 var data = widget.data;
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => DashboardPage(data)));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                        settings: const RouteSettings(name: '/dashboard'),
+                        builder: (context) => DashboardPage(data)
+                    )
+                );
               },
             ),
           ),
@@ -72,20 +78,42 @@ class _CovidSubmitPageState extends State<CovidSubmitPage> {
               ),
             ),
             SizedBox(
-              height: 200.0,
+              height: responsive.hp(30.0),
             ),
             Container(
-              width: 350.0,
-              height: 35.0,
+              width: responsive.wp(80.0),
+              height: responsive.hp(6.0),
               child: ElevatedButton(
                 onPressed: () {
                   if (widget.data['token'] != null) {
                     answerRequestModel.token = widget.data['token'].toString();
                     answerRequestModel.data = widget.list;
                     apiService.answer(answerRequestModel).then((value) {
+                      print(value.status);
                       if (value.status == 200 || value.status == 500) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DashboardPage(widget.data)));
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                settings: const RouteSettings(name: '/dashboard'),
+                                builder: (context) => DashboardPage(widget.data)
+                            )
+                        );
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('AVISO!',
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                  ),),
+                                content: Text(
+                                  'La encuesta ha sido enviada satisfactoriamente.',
+                                  style: TextStyle(
+                                    fontFamily: 'Nunito',
+                                  ),
+                                ),
+                              );
+                            }
+                        );
                       }
                     });
                   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sigaweb_app/CovidSubmitPage.dart';
 import 'package:sigaweb_app/DashboardPage.dart';
+import 'package:sigaweb_app/utils/responsive.dart';
 
 class QuestionPage extends StatefulWidget {
   static String id = 'QuestionPage';
@@ -25,6 +26,7 @@ class _QuestionPageState extends State<QuestionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Responsive responsive = Responsive.of(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -50,8 +52,12 @@ class _QuestionPageState extends State<QuestionPage> {
                 ),
                 onPressed: () {
                   var data = widget.datos;
-                  Navigator.of(context).pop(
-                      MaterialPageRoute(builder: (context) => DashboardPage(data)));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        settings: const RouteSettings(name: '/dashboard'),
+                        builder: (context) => DashboardPage(data)
+                      )
+                  );
                 },
               ),
             ),
@@ -67,10 +73,10 @@ class _QuestionPageState extends State<QuestionPage> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 20.0,
+                          height: responsive.hp(1.5),
                         ),
                         Container(
-                          height: 600.0,
+                          height: responsive.hp(75),
                           child: PageView.builder(
                             controller: pageController,
                             onPageChanged: (index) {
@@ -84,7 +90,7 @@ class _QuestionPageState extends State<QuestionPage> {
                               return Column(
                                 children: [
                                   Container(
-                                    width: 300.0,
+                                    width: responsive.wp(95),
                                     child: Text(
                                       widget.lista['questions'][index]
                                           ['statement'],
@@ -96,11 +102,11 @@ class _QuestionPageState extends State<QuestionPage> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 70.0,
+                                    height: responsive.hp(3),
                                   ),
                                   Container(
-                                    height: 430.0,
-                                    width: 400.0,
+                                    height: responsive.hp(55),
+                                    width: responsive.wp(95),
                                     child: ListView.builder(
                                       itemCount: widget
                                           .lista['questions'][index]['answers']
@@ -117,11 +123,11 @@ class _QuestionPageState extends State<QuestionPage> {
                                                     color: Colors.teal.shade100,
                                                     borderRadius: BorderRadius.circular(100.0)
                                                 ),
-                                                margin: EdgeInsets.all(10.0),
+                                                margin: EdgeInsets.all(8.0),
                                                 child: RadioListTile(
                                                   value: widget.lista['questions']
                                                   [index]['answers'][preg]
-                                                  ['statement']
+                                                  ['id']
                                                       .toString(),
                                                   groupValue: selectedValue,
                                                   controlAffinity:
@@ -140,7 +146,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                                         selectedValue =
                                                         widget.lista['questions']
                                                         [index]['answers']
-                                                        [preg]['statement'];
+                                                        [preg]['id'].toString();
                                                         resp.addAll({
                                                           "id": widget
                                                               .lista['questions']
@@ -166,7 +172,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                                   color: Colors.teal.shade100,
                                                   borderRadius: BorderRadius.circular(100.0)
                                                 ),
-                                                margin: EdgeInsets.all(10.0),
+                                                margin: EdgeInsets.all(8.0),
                                                 child: CheckboxListTile(
                                                   controlAffinity:
                                                   ListTileControlAffinity
@@ -212,9 +218,6 @@ class _QuestionPageState extends State<QuestionPage> {
                             },
                           ),
                         ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
                       ],
                     ),
                   ),
@@ -222,10 +225,18 @@ class _QuestionPageState extends State<QuestionPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    Container(
+                      margin: EdgeInsets.only(right: 20.0, bottom: 40.0, top: responsive.hp(1),),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.0),
+                        border: Border.all(
+                          color: Colors.teal.shade600,
+                          width: 3.0,
+                        ),
+                      ),
                       child: IconButton(
                         icon: Icon(
-                          FontAwesomeIcons.arrowAltCircleLeft,
+                          FontAwesomeIcons.arrowLeft,
                           color: Colors.teal.shade600,
                           size: 30.0,
                         ),
@@ -241,10 +252,18 @@ class _QuestionPageState extends State<QuestionPage> {
                         },
                       ),
                     ),
-                    SizedBox(
+                    Container(
+                      margin: EdgeInsets.only(left: 20.0, bottom: 40.0, top: responsive.hp(1),),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.0),
+                        border: Border.all(
+                          color: Colors.teal.shade600,
+                          width: 3.0,
+                        ),
+                      ),
                       child: IconButton(
                         icon: Icon(
-                          FontAwesomeIcons.arrowAltCircleRight,
+                          FontAwesomeIcons.arrowRight,
                           color: Colors.teal.shade600,
                           size: 30.0,
                         ),
@@ -256,11 +275,34 @@ class _QuestionPageState extends State<QuestionPage> {
                           );
                           if (pageChanged == widget.lista['questions'].length) {
                             pageChanged = widget.lista['questions'].length - 1;
-                            var data = widget.datos;
-                            var list = lista;
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CovidSubmitPage(data, list),
-                            ));
+                            if (lista.length >= widget.lista['questions'].length) {
+                              var data = widget.datos;
+                              var list = lista;
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    settings: const RouteSettings(name: '/covidSubmit'),
+                                    builder: (context) => CovidSubmitPage(data, list),
+                                  )
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('AVISO!',
+                                      style: TextStyle(
+                                        fontFamily: 'Nunito',
+                                      ),),
+                                    content: Text(
+                                      'Todas las preguntas tienen que ser contestadas antes de continuar, por favor verifique que todas estén respondidas.',
+                                      style: TextStyle(
+                                        fontFamily: 'Nunito',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              );
+                            }
                           }
                         },
                       ),

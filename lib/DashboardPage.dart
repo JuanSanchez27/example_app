@@ -5,6 +5,7 @@ import 'package:sigaweb_app/QuestionPage.dart';
 import 'package:sigaweb_app/main.dart';
 import 'package:sigaweb_app/services/api_service.dart';
 import 'package:sigaweb_app/services/models/question_model.dart';
+import 'package:sigaweb_app/utils/responsive.dart';
 
 class DashboardPage extends StatefulWidget {
   static String id = 'DashboardPage';
@@ -22,6 +23,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool noPued = true;
+    final Responsive responsive = Responsive.of(context);
     return SafeArea(
         child: Scaffold(
       body: Center(
@@ -30,13 +33,22 @@ class _DashboardPageState extends State<DashboardPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0),
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    widget.data['profile_image'],
-                    width: 200.0,
-                    height: 200.0,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100.0),
+                    border: Border.all(
+                      color: Colors.teal.shade600,
+                      width: 3.0,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.0),
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.network(
+                      widget.data['profile_image'],
+                      width: 170.0,
+                      height: 170.0,
+                    ),
                   ),
                 ),
                 Container(
@@ -97,7 +109,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               Text(
                 widget.data['fullname'],
-                style: TextStyle(fontFamily: "Nunito", fontSize: 20.0),
+                style: TextStyle(fontFamily: "Nunito", fontSize: responsive.dp(2)),
               ),
               SizedBox(
                 height: 15.0,
@@ -106,7 +118,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 widget.data['institution'],
                 style: TextStyle(
                   fontFamily: "Nunito",
-                  fontSize: 15.0,
+                  fontSize: responsive.dp(1.5),
                   color: Colors.teal.shade600,
                 ),
               ),
@@ -125,8 +137,8 @@ class _DashboardPageState extends State<DashboardPage> {
                 height: 70.0,
               ),
               Container(
-                width: 320.0,
-                height: 50.0,
+                width: responsive.wp(85),
+                height: 60.0,
                 child: ElevatedButton(
                   onPressed: () {
                     var datos = widget.data;
@@ -137,9 +149,12 @@ class _DashboardPageState extends State<DashboardPage> {
                       apiService.question(questionRequestModel).then((value) {
                         if (value.data.isNotEmpty) {
                           lista = value.data;
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  QuestionPage(datos, lista)));
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              settings: const RouteSettings(name: '/question'),
+                              builder: (context) =>  QuestionPage(datos, lista)
+                            )
+                          );
                         } else {
                           AlertDialog(
                             title: Text(
@@ -158,8 +173,8 @@ class _DashboardPageState extends State<DashboardPage> {
                     children: [
                       Container(
                         height: 100.0,
-                        width: 50.0,
-                        margin: EdgeInsets.only(right: 10.0,),
+                        width: responsive.wp(13),
+                        margin: EdgeInsets.only(right: responsive.wp(2), top: 5.0, bottom: 5.0, ),
                         child: Icon(
                           FontAwesomeIcons.shieldAlt,
                           color: Colors.teal.shade600,
@@ -170,7 +185,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(right: 10.0, left: 10.0,),
+                        margin: EdgeInsets.only(right: responsive.wp(2), left: responsive.wp(1),),
                         child: Text('Encuesta COVID Diaria',
                           style: TextStyle(
                             fontFamily: 'Nunito',
@@ -180,7 +195,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20.0,),
+                        margin: EdgeInsets.only(left: responsive.wp(1),),
                         child: Icon(
                           FontAwesomeIcons.arrowRight,
                           color: Colors.teal.shade600,
@@ -194,21 +209,26 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
               SizedBox(
-                height: 100,
+                height: responsive.hp(10),
               ),
               Container(
-                width: 167.0,
-                height: 35.0,
+                width: responsive.wp(60),
+                height: responsive.hp(5),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          settings: const RouteSettings(name: '/login'),
+                          builder: (context) => LoginPage()
+                        )
+                    );
                   },
                   child: Text(
                     "Cerrar sesión",
                     style: TextStyle(
                       color: Colors.teal.shade600,
                       fontFamily: "Nunito",
+                      fontSize: 16.0,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(

@@ -65,10 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                                     if (value.data.isNotEmpty &&
                                         value.status == 200) {
                                       var Data = value.data;
-                                      Navigator.of(context).push(
+                                      Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DashboardPage(Data)));
+                                            settings: const RouteSettings(name:'/dashboard'),
+                                            builder: (context) => DashboardPage(Data),
+                                          )
+                                      );
                                     } else {
                                       showDialog(
                                         context: context,
@@ -144,12 +146,14 @@ class _LoginPageState extends State<LoginPage> {
           },
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            hintText: "  No. Documento",
+            hintText: "No. Documento",
             hintStyle: TextStyle(
               fontFamily: 'Nunito',
               color: Colors.grey.shade400,
             ),
-          )),
+            enabledBorder: InputBorder.none,
+          )
+      ),
       decoration: BoxDecoration(
         //color: Colors.grey.shade200,
       ),
@@ -170,12 +174,14 @@ class _LoginPageState extends State<LoginPage> {
           },
           obscureText: true,
           decoration: InputDecoration(
-            hintText: "  Contraseña",
+            hintText: "Contraseña",
             hintStyle: TextStyle(
               fontFamily: 'Nunito',
               color: Colors.grey.shade400,
             ),
-          )),
+            enabledBorder: InputBorder.none,
+          )
+      ),
       decoration: BoxDecoration(
         //color: Colors.grey.shade200,
       ),
